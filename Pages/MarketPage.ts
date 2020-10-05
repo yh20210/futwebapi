@@ -1,6 +1,6 @@
 import { Page } from "puppeteer";
 import { SearchPlayerParams } from "../Models/SearchPlayerParams";
-import { FormsUtil } from "../Utils/FormsUtil";
+import { DomUtils } from "../Utils/DomUtils";
 import { TimesUtil } from "../Utils/TimeUtil";
 import { WebappPage } from "./WebappPage";
 
@@ -26,20 +26,22 @@ export class MarketPage extends WebappPage {
 
   async setPlayerSearchParams(params: SearchPlayerParams) {
     if (params.name) {
-      await FormsUtil.fillTextInput(this._page, "//*[contains(@class, 'ut-text-input-control')]", params.name, true);
-      await this._page.waitForSelector(".btn-text");
-      await this._page.click(".btn-text");
+      await DomUtils.fillTextInput(this._page, "//*[contains(@class, 'ut-text-input-control')]", params.name, true);
+      await DomUtils.click(
+        this._page,
+        `.//span[contains(@class, 'btn-text')]/following-sibling::span[text()='${params.rating}']`
+      );
     }
     if (params.quality) {
-      await FormsUtil.chooseSelectInput(this._page, "//img[@src='images/SearchFilters/level/any.png']", params.quality);
+      await DomUtils.chooseSelectInput(this._page, "//img[@src='images/SearchFilters/level/any.png']", params.quality);
       TimesUtil.delay(500);
     }
     if (params.rarity) {
-      await FormsUtil.chooseSelectInput(this._page, "//img[@src='images/SearchFilters/rarity/any.png']", params.rarity);
+      await DomUtils.chooseSelectInput(this._page, "//img[@src='images/SearchFilters/rarity/any.png']", params.rarity);
       TimesUtil.delay(500);
     }
     if (params.position) {
-      await FormsUtil.chooseSelectInput(
+      await DomUtils.chooseSelectInput(
         this._page,
         "//img[@src='https://www.ea.com/fifa/ultimate-team/web-app/content/21D4F1AC-91A3-458D-A64E-895AA6D871D1/2021/fut/items/images/mobile/positions/default.png']",
         params.position
@@ -47,7 +49,7 @@ export class MarketPage extends WebappPage {
       TimesUtil.delay(500);
     }
     if (params.chemestry) {
-      await FormsUtil.chooseSelectInput(
+      await DomUtils.chooseSelectInput(
         this._page,
         "//img[@src='https://www.ea.com/fifa/ultimate-team/web-app/content/21D4F1AC-91A3-458D-A64E-895AA6D871D1/2021/fut/items/images/mobile/chemistrystyles/list/default.png']",
         params.chemestry
@@ -55,7 +57,7 @@ export class MarketPage extends WebappPage {
       TimesUtil.delay(500);
     }
     if (params.nationality) {
-      await FormsUtil.chooseSelectInput(
+      await DomUtils.chooseSelectInput(
         this._page,
         "//img[@src='https://www.ea.com/fifa/ultimate-team/web-app/content/21D4F1AC-91A3-458D-A64E-895AA6D871D1/2021/fut/items/images/mobile/flags/list/default.png']",
         params.nationality
@@ -63,7 +65,7 @@ export class MarketPage extends WebappPage {
       TimesUtil.delay(500);
     }
     if (params.league) {
-      await FormsUtil.chooseSelectInput(
+      await DomUtils.chooseSelectInput(
         this._page,
         "//img[@src='https://www.ea.com/fifa/ultimate-team/web-app/content/21D4F1AC-91A3-458D-A64E-895AA6D871D1/2021/fut/items/images/mobile/leagueLogos/dark/default.png']",
         params.league
@@ -71,17 +73,17 @@ export class MarketPage extends WebappPage {
       TimesUtil.delay(500);
     }
     if (params.club) {
-      await FormsUtil.chooseSelectInput(
+      await DomUtils.chooseSelectInput(
         this._page,
         "//img[@src='https://www.ea.com/fifa/ultimate-team/web-app/content/21D4F1AC-91A3-458D-A64E-895AA6D871D1/2021/fut/items/images/mobile/clubs/dark/default.png']",
         params.club
       );
     }
     if (params.minBuyNow) {
-      await FormsUtil.fillTextInput(this._page, "(.//input)[3]", params.minBuyNow.toString(), true);
+      await DomUtils.fillTextInput(this._page, "(.//input)[3]", params.minBuyNow.toString(), true);
     }
     if (params.maxBuyNow) {
-      await FormsUtil.fillTextInput(this._page, "(.//input)[5]", params.maxBuyNow.toString(), true);
+      await DomUtils.fillTextInput(this._page, "(.//input)[5]", params.maxBuyNow.toString(), true);
     }
   }
 
@@ -95,12 +97,8 @@ export class MarketPage extends WebappPage {
     for (let i = 0; i < (quantity !== -1 ? quantity : items.length); i++) {
       const item = items[i];
       item.click();
-      await this._page.waitForXPath(".//button[contains(@class, 'buyButton')]");
-      const [buyNowBtn] = await this._page.$x(".//button[contains(@class, 'buyButton')]");
-      buyNowBtn.click();
-      await this._page.waitForXPath(".//span[contains(text(), 'Ok')]");
-      const [okBtn] = await this._page.$x(".//span[contains(text(), 'Ok')]");
-      okBtn.click();
+      DomUtils.click(this._page, ".//button[contains(@class, 'buyButton')]");
+      DomUtils.click(this._page, ".//span[contains(text(), 'Ok')]");
     }
   }
 
@@ -108,11 +106,9 @@ export class MarketPage extends WebappPage {
     await this._page.waitForXPath(".//span[contains(text(), 'List on Transfer Market')]");
     const [listOptionBtn] = await this._page.$x(".//span[contains(text(), 'List on Transfer Market')]");
     listOptionBtn.click();
-    await FormsUtil.fillTextInput(this._page, "(.//input)[1]", startPrice.toString(), true);
-    await FormsUtil.fillTextInput(this._page, "(.//input)[2]", buyNowPrice.toString(), true);
-    await FormsUtil.chooseSelectInput(this._page, ".//div[contains(@class, 'ut-drop-down-control')]", duration);
-    await this._page.waitForXPath("//button[contains(@class, 'call-to-action')]");
-    const [listBtn] = await this._page.$x("//button[contains(@class, 'call-to-action')]");
-    listBtn.click();
+    await DomUtils.fillTextInput(this._page, "(.//input)[1]", startPrice.toString(), true);
+    await DomUtils.fillTextInput(this._page, "(.//input)[2]", buyNowPrice.toString(), true);
+    await DomUtils.chooseSelectInput(this._page, ".//div[contains(@class, 'ut-drop-down-control')]", duration);
+    await DomUtils.click(this._page, "//button[contains(@class, 'call-to-action')]");
   }
 }

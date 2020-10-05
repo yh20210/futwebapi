@@ -8,12 +8,13 @@ import * as dotenv from "dotenv";
   await _webapp.login(process.env.EA_EMAIL, process.env.EA_PASSWORD, process.env.EA_TOKEN);
   const market = await _webapp.openMarket();
   await market.setPlayerSearchParams({
-    //name: "cristiano ronaldo",
+    name: "cristiano ronaldo",
+    rating: 92,
     //league: "Premier League (ENG 1)",
     //nationality: "Portugal",
     //position: "LW",
-    quality: "Bronze",
-    maxBuyNow: 200,
+    //quality: "Bronze",
+    //maxBuyNow: 200,
   });
   await market.search();
   await market.buyNow(1);

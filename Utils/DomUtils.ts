@@ -1,7 +1,7 @@
 import { Page } from "puppeteer";
 import { TimesUtil } from "./TimeUtil";
 
-export class FormsUtil {
+export class DomUtils {
   public static async fillTextInput(page: Page, xpath: string, value: string, preventFirstCharErase: boolean) {
     await page.waitForXPath(xpath);
     const [input] = await page.$x(xpath);
@@ -15,5 +15,11 @@ export class FormsUtil {
     await page.waitForXPath(`//li[text()='${value}']`);
     const [option] = await page.$x(`//li[text()='${value}']`);
     option.click();
+  }
+
+  public static async click(page: Page, xpath: string) {
+    await page.waitForXPath(xpath);
+    const [button] = await page.$x(xpath);
+    button.click();
   }
 }

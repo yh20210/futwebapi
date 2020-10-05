@@ -1,5 +1,6 @@
 export class SearchPlayerParams {
   name?: string;
+  rating?: number;
   quality?: string;
   rarity?: string;
   position?: string;
