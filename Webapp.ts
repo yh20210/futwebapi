@@ -7,9 +7,12 @@ export class Webapp {
   private _browserArgs = [
     "--no-sandbox",
     "--disable-setuid-sandbox",
+    "--disable-automation",
+    "--disable-blink-features=AutomationControlled",
     "--disable-infobars",
     "--window-position=0,0",
     "--ignore-certifcate-errors",
+    "--no-startup-window",
     "--ignore-certifcate-errors-spki-list",
     '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
   ];

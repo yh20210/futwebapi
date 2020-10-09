@@ -14,8 +14,8 @@ export class LoginPage extends WebappPage {
       await DomUtils.fillTextInput(this._page, "//input[@name='email']", email, false);
       await DomUtils.fillTextInput(this._page, "//input[@name='password']", password, false);
       await DomUtils.click(this._page, "//a[@id='btnLogin']");
-      await this._page.waitForSelector(".origin-ux-radio-button-control");
-      await this._page.evaluate(this.setAuthenticatorRadioOption);
+      await DomUtils.click(this._page, "//strong[contains(text(), 'App Authenticator')]");
+      await DomUtils.click(this._page, "//a[@id='btnSendCode']");
       await DomUtils.fillTextInput(this._page, "//input[@name='oneTimeCode']", authenticator.generate(token), false);
       await DomUtils.click(this._page, "//a[@id='btnSubmit']");
       await this._page.waitForSelector(".icon-home");
@@ -23,12 +23,5 @@ export class LoginPage extends WebappPage {
       return false;
     }
     return true;
-  }
-
-  private setAuthenticatorRadioOption() {
-    const authenticatorRadioBtn = document.querySelectorAll(".origin-ux-radio-button-control")[1] as HTMLButtonElement;
-    const sendCodeBtn = document.querySelector("#btnSendCode") as HTMLButtonElement;
-    authenticatorRadioBtn.click();
-    sendCodeBtn.click();
   }
 }
