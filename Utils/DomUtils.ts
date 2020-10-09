@@ -22,4 +22,12 @@ export class DomUtils {
     const [button] = await page.$x(xpath);
     button.click();
   }
+
+  public static async isDisabled(page: Page, xpath: string) {
+    await page.waitForXPath(xpath);
+    const [button] = await page.$x(xpath);
+    const classNames = (await (await button.getProperty("className")).jsonValue()) as string;
+    const disabledProp = await (await button.getProperty("disabled")).jsonValue();
+    return classNames.includes("disabled") || disabledProp !== null;
+  }
 }

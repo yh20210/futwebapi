@@ -1,4 +1,5 @@
-import { Page } from "puppeteer";
+import { ElementHandle, Page } from "puppeteer";
+import { ListItemParams } from "../Models/ListItemParams";
 import { SearchPlayerParams } from "../Models/SearchPlayerParams";
 import { DomUtils } from "../Utils/DomUtils";
 import { TimesUtil } from "../Utils/TimeUtil";
@@ -91,24 +92,33 @@ export class MarketPage extends WebappPage {
     await this._page.click(".call-to-action");
   }
 
-  async buyNow(quantity: number = -1) {
+  async buyNow(quantity: number = -1): Promise<ElementHandle[]> {
     await this._page.waitForXPath(".//li[contains(@class, 'listFUTItem')]");
     const items = await this._page.$x(".//li[contains(@class, 'listFUTItem')]");
+    const availableItems: ElementHandle[] = [];
     for (let i = 0; i < (quantity !== -1 ? quantity : items.length); i++) {
       const item = items[i];
       item.click();
-      DomUtils.click(this._page, ".//button[contains(@class, 'buyButton')]");
-      DomUtils.click(this._page, ".//span[contains(text(), 'Ok')]");
+      if (!(await DomUtils.isDisabled(this._page, ".//button[contains(@class, 'buyButton')]"))) {
+        await DomUtils.click(this._page, ".//button[contains(@class, 'buyButton')]");
+        await DomUtils.click(this._page, ".//span[contains(text(), 'Ok')]");
+        availableItems.push(item);
+      }
     }
+    return availableItems;
   }
 
-  async listOnMarket(startPrice: number, buyNowPrice: number, duration: string) {
-    await this._page.waitForXPath(".//span[contains(text(), 'List on Transfer Market')]");
-    const [listOptionBtn] = await this._page.$x(".//span[contains(text(), 'List on Transfer Market')]");
-    listOptionBtn.click();
-    await DomUtils.fillTextInput(this._page, "(.//input)[1]", startPrice.toString(), true);
-    await DomUtils.fillTextInput(this._page, "(.//input)[2]", buyNowPrice.toString(), true);
-    await DomUtils.chooseSelectInput(this._page, ".//div[contains(@class, 'ut-drop-down-control')]", duration);
-    await DomUtils.click(this._page, "//button[contains(@class, 'call-to-action')]");
+  async listOnMarket(items: ElementHandle[], params: ListItemParams) {
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      item.click();
+      await this._page.waitForXPath(".//span[contains(text(), 'List on Transfer Market')]");
+      const [listOptionBtn] = await this._page.$x(".//span[contains(text(), 'List on Transfer Market')]");
+      listOptionBtn.click();
+      await DomUtils.fillTextInput(this._page, "(.//input)[1]", params.startBid.toString(), true);
+      await DomUtils.fillTextInput(this._page, "(.//input)[2]", params.buyNow.toString(), true);
+      await DomUtils.chooseSelectInput(this._page, ".//div[contains(@class, 'ut-drop-down-control')]", params.duration);
+      await DomUtils.click(this._page, "//button[contains(@class, 'call-to-action')]");
+    }
   }
 }

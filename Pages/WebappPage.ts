@@ -1,4 +1,5 @@
 import { Page } from "puppeteer";
+import { DomUtils } from "../Utils/DomUtils";
 
 export abstract class WebappPage {
   protected _page: Page;
@@ -9,7 +10,7 @@ export abstract class WebappPage {
 
   async back() {
     try {
-      this._page.click(".ut-navigation-button-control");
+      DomUtils.click(this._page, "//button[@class='ut-navigation-button-control']")
     } catch (e) {}
   }
 }
