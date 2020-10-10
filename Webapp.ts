@@ -29,7 +29,6 @@ export class Webapp {
       defaultViewport: { width: 1280, height: 720 },
     });
     const _browserPage = await this._browser.newPage();
-    _browserPage.setUserAgent("");
     await _browserPage.goto("https://www.ea.com/fifa/ultimate-team/web-app/");
 
     this._loginPage = new LoginPage(_browserPage);
