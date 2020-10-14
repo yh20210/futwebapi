@@ -1,4 +1,4 @@
-import { Browser } from "puppeteer";
+import { Browser, Page } from "puppeteer";
 import * as puppeteer from "puppeteer";
 import { LoginPage } from "./Pages/LoginPage";
 import { MarketPage } from "./Pages/MarketPage";
@@ -15,11 +15,10 @@ export class Webapp {
     "--ignore-certifcate-errors-spki-list",
     '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
   ];
-  private _activePage = "login";
   private _browser: Browser;
+  private _browserPage: Page;
   private _loginPage: LoginPage;
   private _marketPage: MarketPage;
-
   constructor() {}
 
   async init(): Promise<void> {
@@ -28,30 +27,25 @@ export class Webapp {
       headless: false,
       defaultViewport: { width: 1280, height: 720 },
     });
-    const _browserPage = await this._browser.newPage();
-    await _browserPage.goto("https://www.ea.com/fifa/ultimate-team/web-app/");
+    this._browserPage = await this._browser.newPage();
+    await this._browserPage.goto("https://www.ea.com/fifa/ultimate-team/web-app/");
 
-    this._loginPage = new LoginPage(_browserPage);
-    this._marketPage = new MarketPage(_browserPage);
+    this._loginPage = new LoginPage(this._browserPage);
+    this._marketPage = new MarketPage(this._browserPage);
   }
 
-  async login(email: string, password: string, token: string): Promise<void> {
-    const didLogin = await this._loginPage.handle(email, password, token);
-    if (didLogin) {
-      this._activePage = "home";
-    }
+  getLoginPage(): LoginPage {
+    return this._loginPage;
   }
 
-  async openMarket(): Promise<MarketPage | null> {
-    const didOpen = await this._marketPage.open();
-    if (didOpen) {
-      this._activePage = "market";
-      return this._marketPage;
-    }
-    return null;
+  getMarketPage(): MarketPage {
+    return this._marketPage;
   }
 
-  public getActivePage(): string {
-    return this._activePage;
+  async getCoins(): Promise<number> {
+    this._browserPage.waitForXPath("//div[contains(@class, 'view-navbar-currency-coins')]");
+    const [coinsElem] = await this._browserPage.$x("//div[contains(@class, 'view-navbar-currency-coins')]");
+    const coinsText = (await (await coinsElem.getProperty("textContent")).jsonValue()) as string;
+    return parseInt(coinsText.replace(",", ""));
   }
 }

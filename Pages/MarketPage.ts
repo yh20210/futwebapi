@@ -10,15 +10,16 @@ export class MarketPage extends WebappPage {
     super(page);
   }
 
-  async open(): Promise<boolean> {
-    try {
-      await DomUtils.click(this._page, "//button[contains(@class, 'icon-transfer')]");
-      await TimesUtil.delay(4000);
-      await DomUtils.click(this._page, "//div[contains(@class, 'ut-tile-transfer-market')]");
-    } catch (e) {
-      return false;
-    }
-    return true;
+  async openSearchMarket() {
+    await DomUtils.click(this._page, "//button[contains(@class, 'icon-transfer')]");
+    await TimesUtil.delay(4000);
+    await DomUtils.click(this._page, "//div[contains(@class, 'ut-tile-transfer-market')]");
+  }
+
+  async openTransferList() {
+    await DomUtils.click(this._page, "//button[contains(@class, 'icon-transfer')]");
+    await TimesUtil.delay(4000);
+    await DomUtils.click(this._page, "//div[contains(@class, 'ut-tile-transfer-list')]");
   }
 
   async setPlayerSearchParams(params: SearchPlayerParams) {

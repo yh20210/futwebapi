@@ -1,5 +1,5 @@
 {
-  "name": "futwebapi",
+  "name": "@mynameisvasco/futwebapi",
   "version": "0.0.3",
   "description": "An api to interact with fut web api with little effor",
   "types": "dist/index.d.ts",
@@ -9,7 +9,8 @@
     "watch-ts": "tsc -w"
   },
   "author": "Vasco Sousa",
-  "license": "ISC",
+  "license": "MIT",
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "dependencies": {
     "@types/otplib": "^10.0.0",
     "@types/puppeteer": "^3.0.2",
