@@ -1,9 +1,9 @@
 {
   "name": "@mynameisvasco/futwebapi",
-  "version": "1.0.1",
-  "description": "An api to interact with fut web api with little effor",
+  "version": "1.0.2",
+  "description": "An api to interact with fut web api with little effort",
   "types": "dist/index.d.ts",
-  "main": "dist/demo.js",
+  "main": "dist/index.js",
   "scripts": {
     "build-ts": "tsc",
     "watch-ts": "tsc -w"

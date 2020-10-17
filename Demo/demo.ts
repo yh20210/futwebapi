@@ -3,6 +3,12 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import { App } from "../Framework/App";
 
+async function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
 (async () => {
   dotenv.config();
   var playersFile = await fs.readFile(path.join(__dirname, "./players.txt"), "utf-8");
@@ -39,6 +45,7 @@ import { App } from "../Framework/App";
         duration: "1 Hour",
       });
       await app.marketPage.back();
+      await sleep(2000);
     }
   }
 })();
