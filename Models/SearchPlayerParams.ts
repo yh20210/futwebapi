@@ -1,13 +1,14 @@
 export class SearchPlayerParams {
   name?: string;
-  rating?: number;
   quality?: string;
   rarity?: string;
   position?: string;
-  chemestry?: string;
-  nationality?: string;
+  chem?: string;
+  nation?: string;
   league?: string;
   club?: string;
+  minBid?: number;
+  maxBid?: number;
   minBuyNow?: number;
   maxBuyNow?: number;
 }
