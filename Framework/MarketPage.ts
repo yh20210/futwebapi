@@ -119,7 +119,6 @@ export default class MarketPage implements IMarketPage {
         .replace("Buy Now for", "")
         .replace(",", "")
         .trim();
-      console.log({ itemPrice, maxBuyNowConfirm });
       if (buyNowBtnDisabled !== null || buyNowBtnClassName.includes("disabled")) {
         return;
       }

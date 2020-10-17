@@ -1,6 +1,5 @@
 Richarlison||11000||13000
-Jesus Navas||8100||8800
-Carrasco||900|1300
-Dele Alli||3300||4000
+Jesus Navas||8100||8500
+Dele Alli||3200||3600
 Laimer||900||1300
-Marcos Llorente||3000||3500
+Marcos Llorente||2800||3300
