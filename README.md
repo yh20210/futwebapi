@@ -1,6 +1,6 @@
 # ⚽️ FutWebApi
 
----
+
 
 ## 🔧 How to install ?
 
@@ -9,11 +9,15 @@
 3. Run ```npm install @mynameisvasco/futwebapi```
 4. Code your own stuff and have fun!
 
+
+
 ## 💬 Community
 
 If you want to find a group of people ready to help you and share some knowledge, do not hesitate and join our discord group 
 
 <img align="left" src="https://img.shields.io/discord/759392932465344512?color=green&label=Discord&logo=discord&logoColor=white">
+
+
 
 ## 📘 Documentation
 
