@@ -41,4 +41,24 @@ export default class Util {
       implicit: ms,
     });
   }
+
+  public async sendKeysPreventShield(value: string | number, element: WebElement) {
+    let elementValue = await element.getAttribute("value");
+    const backspaces = await this.getBackspacesFrom(elementValue);
+    let chars = value.toString().split("");
+    await element.sendKeys(backspaces);
+    for (var i = 0; i < chars.length; i++) {
+      if (i === 0) {
+        await element.sendKeys(chars[i]);
+        await this.sleep(120);
+        await element.sendKeys(Key.ARROW_RIGHT);
+      } else {
+        await element.sendKeys(chars[i]);
+        await this.sleep(120);
+      }
+      if (i === chars.length - 1) {
+        await this.sleep(800);
+      }
+    }
+  }
 }
