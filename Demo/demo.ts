@@ -38,7 +38,7 @@ async function sleep(ms: number) {
         maxBuyNow,
       });
       await app.marketPage.search();
-      //await app.marketPage.buyNow(1);
+      await app.marketPage.buyNow(1, maxBuyNow);
       await app.marketPage.listOnMarket({
         startBid: 150,
         buyNow: sellBuyNow,

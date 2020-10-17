@@ -1,6 +1,6 @@
 {
   "name": "@mynameisvasco/futwebapi",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An api to interact with fut web api with little effort",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
@@ -8,6 +8,9 @@
     "build-ts": "tsc",
     "watch-ts": "tsc -w"
   },
+  "files": [
+    "dist"
+  ],
   "author": "Vasco Sousa",
   "license": "MIT",
   "publishConfig": {

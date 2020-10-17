@@ -10,7 +10,6 @@ export class App {
 
   public async init() {
     const options = new Options();
-    options.addArguments("--no-sandbox");
     options.addArguments("--disable-setuid-sandbox");
     options.addArguments("--disable-automation");
     options.addArguments("--disable-blink-features=AutomationControlled");

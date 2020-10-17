@@ -7,7 +7,7 @@ export default interface IMarketPage {
   gotoTransferList(): Promise<void>;
   setSearchOptions(params: SearchPlayerParams): Promise<void>;
   search(): Promise<void>;
-  buyNow(quantity: number): Promise<void>;
+  buyNow(quantity: number, maxBuyNowConfirm: number): Promise<void>;
   listOnMarket(params: ListItemParams): Promise<void>;
   back(): Promise<void>;
 }

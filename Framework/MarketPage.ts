@@ -68,7 +68,7 @@ export default class MarketPage implements IMarketPage {
     if (params.name) {
       const nameInputValue = await nameInput.getAttribute("value");
       const nameInputBackspaces = await this._util.getBackspacesFrom(nameInputValue);
-      await nameInput.sendKeys(nameInputBackspaces + params.name);
+      await nameInput.sendKeys(nameInputBackspaces, params.name);
       const xPlayerOption = By.xpath("//span[contains(@class, 'btn-text')]");
       const playerOption = await this._driver.findElement(xPlayerOption);
       await playerOption.click().catch((e) => this._logger.error(e));
@@ -83,26 +83,26 @@ export default class MarketPage implements IMarketPage {
     if (params.minBid) {
       const minBidInputValue = await minBidInput.getAttribute("value");
       const minBidInputBackspaces = await this._util.getBackspacesFrom(minBidInputValue);
-      await minBidInput.sendKeys(minBidInputBackspaces + params.minBid);
+      await minBidInput.sendKeys(minBidInputBackspaces, params.minBid);
     }
     if (params.maxBid) {
       const maxBidInputValue = await maxBidInput.getAttribute("value");
       const maxBidInputBackspaces = await this._util.getBackspacesFrom(maxBidInputValue);
-      await maxBidInput.sendKeys(maxBidInputBackspaces + params.maxBid);
+      await maxBidInput.sendKeys(maxBidInputBackspaces, params.maxBid);
     }
     if (params.minBuyNow) {
       const minBuyNowInputValue = await minBuyNowInput.getAttribute("value");
       const minBuyNowInputBackspaces = await this._util.getBackspacesFrom(
         minBuyNowInputValue
       );
-      await minBuyNowInput.sendKeys(minBuyNowInputBackspaces + params.minBuyNow);
+      await minBuyNowInput.sendKeys(minBuyNowInputBackspaces, params.minBuyNow);
     }
     if (params.maxBuyNow) {
       const maxBuyNowInputValue = await maxBuyNowInput.getAttribute("value");
       const maxBuyNowInputBackspaces = await this._util.getBackspacesFrom(
         maxBuyNowInputValue
       );
-      await maxBuyNowInput.sendKeys(maxBuyNowInputBackspaces + params.maxBuyNow);
+      await maxBuyNowInput.sendKeys(maxBuyNowInputBackspaces, params.maxBuyNow);
     }
   }
 
@@ -112,9 +112,9 @@ export default class MarketPage implements IMarketPage {
     await searchBtn.click().catch((e) => this._logger.error(e));
   }
 
-  public async buyNow(quantity: number = -1) {
+  public async buyNow(quantity: number = -1, maxBuyNowConfirm: number) {
     const xResultItems = By.xpath("//li[contains(@class, 'listFUTItem')]");
-    await this._util.updateFindTimeout(1000);
+    await this._util.updateFindTimeout(2000);
     let resultItems = await this._driver.findElements(xResultItems);
     await this._util.updateFindTimeout(20000);
 
@@ -135,6 +135,10 @@ export default class MarketPage implements IMarketPage {
       const buyNowBtn = await this._driver.findElement(xBuyNowBtn);
       const buyNowBtnDisabled = await buyNowBtn.getAttribute("disabled");
       const buyNowBtnClassName = await buyNowBtn.getAttribute("className");
+      const itemPrice = (await buyNowBtn.getText())
+        .replace("Buy Now for", "")
+        .replace(",", "")
+        .trim();
       if (buyNowBtnDisabled !== null || buyNowBtnClassName.includes("disabled")) {
         return;
       }
@@ -145,10 +149,12 @@ export default class MarketPage implements IMarketPage {
         return;
       }
 
-      await this._util.clickPreventShield(buyNowBtn);
-      const okBuyNowBtn = await this._driver.findElement(xOkBuyNowBtn);
-      await this._util.clickPreventShield(okBuyNowBtn);
-      await this._util.sleep(600);
+      if (parseInt(itemPrice) === maxBuyNowConfirm) {
+        await this._util.clickPreventShield(buyNowBtn);
+        const okBuyNowBtn = await this._driver.findElement(xOkBuyNowBtn);
+        await this._util.clickPreventShield(okBuyNowBtn);
+        await this._util.sleep(600);
+      }
     }
   }
 
