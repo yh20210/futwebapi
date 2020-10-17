@@ -1,6 +1,6 @@
 {
   "name": "@mynameisvasco/futwebapi",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "An api to interact with fut web api with little effor",
   "types": "dist/index.d.ts",
   "main": "dist/demo.js",
