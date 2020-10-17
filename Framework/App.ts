@@ -10,9 +10,14 @@ export class App {
 
   public async init() {
     const options = new Options();
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-setuid-sandbox");
     options.addArguments("--disable-automation");
     options.addArguments("--disable-blink-features=AutomationControlled");
-
+    options.addArguments("--disable-infobars");
+    options.addArguments(
+      'user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36'
+    );
     const driver = await new Builder()
       .forBrowser("chrome")
       .setChromeOptions(options)
