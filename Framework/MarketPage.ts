@@ -1,7 +1,7 @@
 import { By, Key, WebDriver } from "selenium-webdriver";
 import IMarketPage from "../Interfaces/IMarketPage";
-import { ListItemParams } from "../Models/ListItemParams";
-import { SearchPlayerParams } from "../Models/SearchPlayerParams";
+import { ListItemParams } from "../Interfaces/ListItemParams";
+import { SearchPlayerParams } from "../Interfaces/SearchPlayerParams";
 import Logger from "./Logger";
 import Util from "./Util";
 

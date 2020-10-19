@@ -1,5 +1,5 @@
-import { ListItemParams } from "../Models/ListItemParams";
-import { SearchPlayerParams } from "../Models/SearchPlayerParams";
+import { ListItemParams } from "./ListItemParams";
+import { SearchPlayerParams } from "./SearchPlayerParams";
 
 export default interface IMarketPage {
   goto(): Promise<void>;

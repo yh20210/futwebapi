@@ -1,4 +1,4 @@
-export class SearchPlayerParams {
+export interface SearchPlayerParams {
   name?: string;
   quality?: string;
   rarity?: string;
