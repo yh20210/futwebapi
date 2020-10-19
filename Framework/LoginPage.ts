@@ -1,6 +1,6 @@
 import { authenticator } from "otplib";
 import { By, until, WebDriver } from "selenium-webdriver";
-import LoginParams from "../Models/LoginParams";
+import { LoginParams } from "../Interfaces/LoginParams";
 import Logger from "./Logger";
 
 export default class LoginPage implements LoginPage {
