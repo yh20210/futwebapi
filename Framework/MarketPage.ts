@@ -111,7 +111,7 @@ export default class MarketPage implements IMarketPage {
 
       const xOkBuyNowBtn = By.xpath("//span[contains(text(), 'Ok')]");
       const xBuyNowBtn = By.xpath("//button[contains(@class, 'buyButton')]");
-      await this._util.sleep(300);
+      await this._util.sleep(100);
       const buyNowBtn = await this._driver.findElement(xBuyNowBtn);
       const buyNowBtnDisabled = await buyNowBtn.getAttribute("disabled");
       const buyNowBtnClassName = await buyNowBtn.getAttribute("className");
