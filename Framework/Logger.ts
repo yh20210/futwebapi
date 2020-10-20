@@ -1,4 +1,4 @@
-import LoggerParams from "../Models/LoggerParams";
+import { LoggerParams } from "../Interfaces/LoggerParams";
 
 export default class Logger {
   private _log: (arg: any, type: string) => void;
