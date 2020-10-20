@@ -1,7 +1,7 @@
 import { By, Key, WebDriver } from "selenium-webdriver";
 import IMarketPage from "../Interfaces/IMarketPage";
-import { ListItemParams } from "../Interfaces/ListItemParams";
-import { SearchPlayerParams } from "../Interfaces/SearchPlayerParams";
+import { IListItemParams } from "../Interfaces/IListItemParams";
+import { ISearchPlayerParams } from "../Interfaces/ISearchPlayerParams";
 import Logger from "./Logger";
 import Util from "./Util";
 
@@ -38,7 +38,7 @@ export default class MarketPage implements IMarketPage {
     await gotoTransferList.click().catch((e) => this._logger.error(e));
   }
 
-  public async setSearchOptions(params: SearchPlayerParams) {
+  public async setSearchOptions(params: ISearchPlayerParams) {
     const xNameInput = By.xpath("//input[contains(@placeholder, 'Player Name')]");
     const xQualitySelect = By.xpath("//span[contains(text(), 'Quality')]");
     const xRaritySelect = By.xpath("//span[contains(text(), 'Rarity')]");
@@ -138,7 +138,7 @@ export default class MarketPage implements IMarketPage {
     }
   }
 
-  public async listOnMarket(params: ListItemParams) {
+  public async listOnMarket(params: IListItemParams) {
     const xWonItems = By.xpath("//li[contains(@class, 'won')]");
     await this._util.updateFindTimeout(1000);
     const wonItems = await this._driver.findElements(xWonItems);

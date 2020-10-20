@@ -1,6 +1,6 @@
-export * from "./Interfaces/ListItemParams";
-export * from "./Interfaces/SearchPlayerParams";
-export * from "./Interfaces/LoginParams";
+export * from "./Interfaces/IListItemParams";
+export * from "./Interfaces/ISearchPlayerParams";
+export * from "./Interfaces/ILoginParams";
 
 export * from "./Framework/App";
 export * from "./Interfaces/ILoginPage";

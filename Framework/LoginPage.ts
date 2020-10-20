@@ -1,6 +1,6 @@
 import { authenticator } from "otplib";
-import { By, until, WebDriver } from "selenium-webdriver";
-import { LoginParams } from "../Interfaces/LoginParams";
+import { By, WebDriver } from "selenium-webdriver";
+import { ILoginParams } from "../Interfaces/ILoginParams";
 import Logger from "./Logger";
 
 export default class LoginPage implements LoginPage {
@@ -19,7 +19,7 @@ export default class LoginPage implements LoginPage {
     await gotoLoginBtn.click().catch((e) => this._logger.error(e));
   }
 
-  public async login(params: LoginParams) {
+  public async login(params: ILoginParams) {
     const { email, password, token } = params;
     const xEmailInput = By.xpath("//input[@name='email']");
     const xPasswordInput = By.xpath("//input[@name='password']");
