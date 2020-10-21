@@ -1,5 +1,5 @@
-Renan Lodi||2400||2800
-Vinícius Jr.||4200||4800
-Kevin Mbabu||3300||3900
-Héctor Bellerín||2500||3000
-Jesús Navas||7200||7700
+Renan Lodi||2800||3200
+Vinícius Jr.||4700||5100
+Kevin Mbabu||3700||4100
+Héctor Bellerín||2800||3200
+Jesús Navas||7300||7900

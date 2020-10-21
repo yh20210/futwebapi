@@ -1,7 +1,8 @@
-export * from "./Interfaces/IListItemParams";
-export * from "./Interfaces/ISearchPlayerParams";
-export * from "./Interfaces/ILoginParams";
-
-export * from "./Framework/App";
+export * from "./Interfaces/IListItemOptions";
+export * from "./Interfaces/ISearchPlayerOptions";
+export * from "./Interfaces/ILoginOptions";
+export * from "./Interfaces/ISearchConsumableOptions";
 export * from "./Interfaces/ILoginPage";
 export * from "./Interfaces/IMarketPage";
+
+export * from "./Framework/App";

@@ -1,10 +1,10 @@
-import { ILoggerParams } from "../Interfaces/ILoggerParams";
+import { ILoggerOptions } from "../Interfaces/ILoggerOptions";
 
 export default class Logger {
   private _log: (arg: any, type: string) => void;
 
-  public constructor(params: ILoggerParams) {
-    if (params.type === "console") {
+  public constructor(options: ILoggerOptions) {
+    if (options.type === "console") {
       this._log = this._viaConsole;
     }
   }

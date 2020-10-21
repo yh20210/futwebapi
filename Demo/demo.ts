@@ -33,10 +33,12 @@ async function sleep(ms: number) {
       const maxBuyNow = parseInt(player.split("||")[1]);
       const sellBuyNow = parseInt(player.split("||")[2]);
 
-      await app.marketPage.setSearchOptions({
-        name,
-        maxBuyNow,
+      /* Search consumables examples
+      await app.marketPage.setSearchConsumableOptions({
+        type: "Position Change",
+        subtype: "CF >> CAM"
       });
+      */
       await app.marketPage.search();
       await app.marketPage.buyNow(1, maxBuyNow);
       await app.marketPage.listOnMarket({

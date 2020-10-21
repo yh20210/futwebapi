@@ -1,4 +1,4 @@
-export interface ISearchPlayerParams {
+export interface ISearchPlayerOptions {
   name?: string;
   quality?: string;
   rarity?: string;

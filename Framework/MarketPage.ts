@@ -1,7 +1,8 @@
-import { By, Key, WebDriver } from "selenium-webdriver";
+import { By, WebDriver } from "selenium-webdriver";
 import IMarketPage from "../Interfaces/IMarketPage";
-import { IListItemParams } from "../Interfaces/IListItemParams";
-import { ISearchPlayerParams } from "../Interfaces/ISearchPlayerParams";
+import { IListItemOptions } from "../Interfaces/IListItemOptions";
+import { ISearchPlayerOptions } from "../Interfaces/ISearchPlayerOptions";
+import { ISearchConsumableOptions } from "../Interfaces/ISearchConsumableOptions";
 import Logger from "./Logger";
 import Util from "./Util";
 
@@ -38,7 +39,8 @@ export default class MarketPage implements IMarketPage {
     await gotoTransferList.click().catch((e) => this._logger.error(e));
   }
 
-  public async setSearchOptions(params: ISearchPlayerParams) {
+  public async setSearchPlayerOptions(options: ISearchPlayerOptions) {
+    const xPlayerTab = By.xpath("//button[contains(text(),'Players')]");
     const xNameInput = By.xpath("//input[contains(@placeholder, 'Player Name')]");
     const xQualitySelect = By.xpath("//span[contains(text(), 'Quality')]");
     const xRaritySelect = By.xpath("//span[contains(text(), 'Rarity')]");
@@ -52,6 +54,8 @@ export default class MarketPage implements IMarketPage {
     const xMinBuyNowInput = By.xpath("(//input)[4]");
     const xMaxBuyNowInput = By.xpath("(//input)[5]");
 
+    const playersTab = await this._driver.findElement(xPlayerTab);
+    await playersTab.click();
     const nameInput = await this._driver.findElement(xNameInput);
     const qualitySelect = await this._driver.findElement(xQualitySelect);
     const raritySelect = await this._driver.findElement(xRaritySelect);
@@ -65,25 +69,69 @@ export default class MarketPage implements IMarketPage {
     const minBuyNowInput = await this._driver.findElement(xMinBuyNowInput);
     const maxBuyNowInput = await this._driver.findElement(xMaxBuyNowInput);
 
-    if (params.name) {
-      await this._util.sendKeysPreventShield(params.name, nameInput);
+    if (options.name) {
+      await this._util.sendKeysPreventShield(options.name, nameInput);
       const xPlayerOption = By.xpath("//span[contains(@class, 'btn-text')]");
       const playerOption = await this._driver.findElement(xPlayerOption);
       await playerOption.click().catch((e) => this._logger.error(e));
     }
-    params.quality && (await this._util.selectOption(params.quality, qualitySelect));
-    params.rarity && (await this._util.selectOption(params.rarity, raritySelect));
-    params.position && (await this._util.selectOption(params.position, positionSelect));
-    params.chem && (await this._util.selectOption(params.chem, chemSelect));
-    params.nation && (await this._util.selectOption(params.nation, nationSelect));
-    params.league && (await this._util.selectOption(params.league, leagueSelect));
-    params.club && (await this._util.selectOption(params.club, clubSelect));
-    params.minBid && (await this._util.sendKeysPreventShield(params.minBid, minBidInput));
-    params.maxBid && (await this._util.sendKeysPreventShield(params.maxBid, maxBidInput));
-    params.minBuyNow &&
-      (await this._util.sendKeysPreventShield(params.minBuyNow, minBuyNowInput));
-    params.maxBuyNow &&
-      (await this._util.sendKeysPreventShield(params.maxBuyNow, maxBuyNowInput));
+    options.quality && (await this._util.selectOption(options.quality, qualitySelect));
+    options.rarity && (await this._util.selectOption(options.rarity, raritySelect));
+    options.position && (await this._util.selectOption(options.position, positionSelect));
+    options.chem && (await this._util.selectOption(options.chem, chemSelect));
+    options.nation && (await this._util.selectOption(options.nation, nationSelect));
+    options.league && (await this._util.selectOption(options.league, leagueSelect));
+    options.club && (await this._util.selectOption(options.club, clubSelect));
+    options.minBid &&
+      (await this._util.sendKeysPreventShield(options.minBid, minBidInput));
+    options.maxBid &&
+      (await this._util.sendKeysPreventShield(options.maxBid, maxBidInput));
+    options.minBuyNow &&
+      (await this._util.sendKeysPreventShield(options.minBuyNow, minBuyNowInput));
+    options.maxBuyNow &&
+      (await this._util.sendKeysPreventShield(options.maxBuyNow, maxBuyNowInput));
+  }
+
+  public async setSearchConsumableOptions(options: ISearchConsumableOptions) {
+    const xConsumablesTab = By.xpath("//button[contains(text(), 'Consumables')]");
+    const xTypeSelect = By.xpath(
+      "(//div[contains(@class, 'ut-search-filter-control--row')])[1]"
+    );
+    const xQualitySelect = By.xpath(
+      "(//div[contains(@class, 'ut-search-filter-control--row')])[2]"
+    );
+    const xSubtypeSelect = By.xpath(
+      "(//div[contains(@class, 'ut-search-filter-control--row')])[3]"
+    );
+    const xMinBidInput = By.xpath("(//input)[2]");
+    const xMaxBidInput = By.xpath("(//input)[3]");
+    const xMinBuyNowInput = By.xpath("(//input)[4]");
+    const xMaxBuyNowInput = By.xpath("(//input)[5]");
+
+    const consumablesTab = await this._driver.findElement(xConsumablesTab);
+    await consumablesTab.click();
+    const typeSelect = await this._driver.findElement(xTypeSelect);
+    const qualitySelect = await this._driver.findElement(xQualitySelect);
+    const subtypeSelect = await this._driver.findElement(xSubtypeSelect).catch();
+    const minBidInput = await this._driver.findElement(xMinBidInput);
+    const maxBidInput = await this._driver.findElement(xMaxBidInput);
+    const minBuyNowInput = await this._driver.findElement(xMinBuyNowInput);
+    const maxBuyNowInput = await this._driver.findElement(xMaxBuyNowInput);
+
+    options.type && (await this._util.selectOption(options.type, typeSelect));
+    options.quality && (await this._util.selectOption(options.quality, qualitySelect));
+    options.subtype &&
+      subtypeSelect &&
+      (await this._util.selectOption(options.subtype, subtypeSelect));
+
+    options.minBid &&
+      (await this._util.sendKeysPreventShield(options.minBid, minBidInput));
+    options.maxBid &&
+      (await this._util.sendKeysPreventShield(options.maxBid, maxBidInput));
+    options.minBuyNow &&
+      (await this._util.sendKeysPreventShield(options.minBuyNow, minBuyNowInput));
+    options.maxBuyNow &&
+      (await this._util.sendKeysPreventShield(options.maxBuyNow, maxBuyNowInput));
   }
 
   public async search() {
@@ -138,7 +186,7 @@ export default class MarketPage implements IMarketPage {
     }
   }
 
-  public async listOnMarket(params: IListItemParams) {
+  public async listOnMarket(options: IListItemOptions) {
     const xWonItems = By.xpath("//li[contains(@class, 'won')]");
     await this._util.updateFindTimeout(1000);
     const wonItems = await this._driver.findElements(xWonItems);
@@ -166,10 +214,10 @@ export default class MarketPage implements IMarketPage {
       );
 
       await this._util.clickPreventShield(listOption).catch((e) => this._logger.error(e));
-      await startBidInput.sendKeys(eraseStartBidInput + params.startBid);
-      await buyNowInput.sendKeys(eraseBuyNowInput + params.buyNow);
+      await startBidInput.sendKeys(eraseStartBidInput + options.startBid);
+      await buyNowInput.sendKeys(eraseBuyNowInput + options.buyNow);
       await this._util
-        .selectOption(params.duration, durationSelect)
+        .selectOption(options.duration, durationSelect)
         .catch((e) => this._logger.error(e));
       await this._util
         .clickPreventShield(listOnMarketBtn)
