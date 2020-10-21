@@ -17,6 +17,11 @@ export class App {
     options.addArguments(
       'user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36'
     );
+    options.setUserPreferences({
+      "dom.webdriver.enabled": false,
+      "profile.password_manager_enabled": false,
+      credentails_enable_serivce: false,
+    });
     const driver = await new Builder()
       .forBrowser("chrome")
       .setChromeOptions(options)

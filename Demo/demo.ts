@@ -39,6 +39,10 @@ async function sleep(ms: number) {
         subtype: "CF >> CAM"
       });
       */
+      await app.marketPage.setSearchPlayerOptions({
+        name,
+        maxBuyNow,
+      });
       await app.marketPage.search();
       await app.marketPage.buyNow(1, maxBuyNow);
       await app.marketPage.listOnMarket({
