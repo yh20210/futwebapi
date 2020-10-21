@@ -8,8 +8,8 @@
 2. Add ```registry=https://npm.pkg.github.com/mynameisvasco``` to .npmrc
 3. Run ```npm install @mynameisvasco/futwebapi```
 4. Code your own stuff and have fun!
-
-
+5. If you have problems installing the package, read the documentation that explains how to install
+a github npm packge <a href="https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/configuring-npm-for-use-with-github-packages#authenticating-with-a-personal-access-token">here</a>
 
 ## 💬 Community
 
