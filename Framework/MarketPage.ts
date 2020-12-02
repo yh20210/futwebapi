@@ -195,7 +195,7 @@ export default class MarketPage implements IMarketPage {
   }
 
   public async listOnMarket(options: IListItemOptions) {
-    //https://utas.external.s2.fut.ea.com/ut/game/fifa21/trade/status?tradeIds=295809519293
+    this._util.httpHook();
     const xWonItems = By.xpath("//li[contains(@class, 'won')]");
     await this._util.updateFindTimeout(1000);
     const wonItems = await this._driver.findElements(xWonItems);

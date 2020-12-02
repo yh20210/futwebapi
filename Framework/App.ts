@@ -25,7 +25,7 @@ export class App {
       req.body.url.includes("bid")
     ) {
       this._marketPage.onBuyNowHttpIntercept(JSON.parse(req.body.body));
-    } else if (req.body.url.includes("ut/game/fifa21/trade/")) {
+    } else if (req.body.url.includes("ut/game/fifa21/trade/status?tradeIds")) {
       this._marketPage.onListOnMarketHttpIntercept(JSON.parse(req.body.body));
     }
   }
