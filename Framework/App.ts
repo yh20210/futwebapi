@@ -28,6 +28,7 @@ export class App {
     } else if (req.body.url.includes("ut/game/fifa21/trade/status?tradeIds")) {
       this._marketPage.onListOnMarketHttpIntercept(JSON.parse(req.body.body));
     }
+    res.end();
   }
 
   public async init() {

@@ -1,6 +1,2 @@
-Arthur||2500||2900
-Moussa Sissoko||5300||6000
-Vinícius Jr.||1100||1400
-Iñaki Williams||1500||1900
-Jesús Navas||3500||3900
+Wang Peng||200||200
 

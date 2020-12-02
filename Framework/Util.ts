@@ -9,25 +9,25 @@ export default class Util {
 
   public httpHook() {
     this._driver.executeScript(`
-    ((() => {
-        const origOpen = XMLHttpRequest.prototype.open;
-        XMLHttpRequest.prototype.open = function() {
-            this.addEventListener('load', function() {
-                fetch("http://localhost:3000", {
-                  method: 'POST',
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    body: this.responseText,
-                    url: this.responseURL
+      ((() => {
+          const origOpen = XMLHttpRequest.prototype.open;
+          XMLHttpRequest.prototype.open = function() {
+              this.addEventListener('load', function() {
+                  fetch("http://localhost:3000", {
+                    method: 'POST',
+                    headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      body: this.responseText,
+                      url: this.responseURL
+                    })
                   })
-                })
-            });
-            origOpen.apply(this, arguments);
-        };
-    }))();
+              });
+              origOpen.apply(this, arguments);
+          };
+      }))();
     `);
   }
 

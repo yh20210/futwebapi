@@ -138,10 +138,7 @@ export default class MarketPage implements IMarketPage {
   }
 
   //This function should be assigned by library users
-  public onSearchHttpIntercept(data: any) {
-    console.log("onSearchHttpIntercept");
-    console.log(data);
-  }
+  public onSearchHttpIntercept(data: any) {}
 
   public async buyNow(quantity: number = -1, maxBuyNowConfirm: number) {
     const xResultItems = By.xpath("//li[contains(@class, 'listFUTItem')]");
@@ -189,13 +186,9 @@ export default class MarketPage implements IMarketPage {
   }
 
   //This function should be implemented by library users
-  public onBuyNowHttpIntercept(data: any) {
-    console.log("onBuyNowHttpIntercept");
-    console.log(data);
-  }
+  public onBuyNowHttpIntercept(data: any) {}
 
   public async listOnMarket(options: IListItemOptions) {
-    this._util.httpHook();
     const xWonItems = By.xpath("//li[contains(@class, 'won')]");
     await this._util.updateFindTimeout(1000);
     const wonItems = await this._driver.findElements(xWonItems);
@@ -228,6 +221,7 @@ export default class MarketPage implements IMarketPage {
       await this._util
         .selectOption(options.duration, durationSelect)
         .catch((e) => this._logger.error(e));
+
       await this._util
         .clickPreventShield(listOnMarketBtn)
         .catch((e) => this._logger.error(e));
