@@ -40,15 +40,16 @@ export default class MarketPage implements IMarketPage {
   }
 
   public async setSearchPlayerOptions(options: ISearchPlayerOptions) {
+    const xSelectString = "(//div[contains(@class, 'ut-search-filter-control--row')])";
     const xPlayerTab = By.xpath("//button[contains(text(),'Players')]");
     const xNameInput = By.xpath("//input[contains(@placeholder, 'Player Name')]");
-    const xQualitySelect = By.xpath("//span[contains(text(), 'Quality')]");
-    const xRaritySelect = By.xpath("//span[contains(text(), 'Rarity')]");
-    const xPositionSelect = By.xpath("//span[contains(text(), 'Position')]");
-    const xChemistrySelect = By.xpath("//span[contains(text(), 'Chemistry Style')]");
-    const xNationalitySelect = By.xpath("//span[contains(text(), 'Nationality')]");
-    const xLeagueSelect = By.xpath("//span[contains(text(), 'League')]");
-    const xClubSelect = By.xpath("//span[contains(text(), 'Club')]");
+    const xQualitySelect = By.xpath(xSelectString + "[1]");
+    const xRaritySelect = By.xpath(xSelectString + "[2]");
+    const xPositionSelect = By.xpath(xSelectString + "[3]");
+    const xChemistrySelect = By.xpath(xSelectString + "[4]");
+    const xNationalitySelect = By.xpath(xSelectString + "[5]");
+    const xLeagueSelect = By.xpath(xSelectString + "[6]");
+    const xClubSelect = By.xpath(xSelectString + "[7]");
     const xMinBidInput = By.xpath("(//input)[2]");
     const xMaxBidInput = By.xpath("(//input)[3]");
     const xMinBuyNowInput = By.xpath("(//input)[4]");
@@ -93,16 +94,11 @@ export default class MarketPage implements IMarketPage {
   }
 
   public async setSearchConsumableOptions(options: ISearchConsumableOptions) {
+    const xSelectString = "(//div[contains(@class, 'ut-search-filter-control--row')])";
     const xConsumablesTab = By.xpath("//button[contains(text(), 'Consumables')]");
-    const xTypeSelect = By.xpath(
-      "(//div[contains(@class, 'ut-search-filter-control--row')])[1]"
-    );
-    const xQualitySelect = By.xpath(
-      "(//div[contains(@class, 'ut-search-filter-control--row')])[2]"
-    );
-    const xSubtypeSelect = By.xpath(
-      "(//div[contains(@class, 'ut-search-filter-control--row')])[3]"
-    );
+    const xTypeSelect = By.xpath(xSelectString + "[1]");
+    const xQualitySelect = By.xpath(xSelectString + "[2]");
+    const xSubtypeSelect = By.xpath(xSelectString + "[3]");
     const xMinBidInput = By.xpath("(//input)[2]");
     const xMaxBidInput = By.xpath("(//input)[3]");
     const xMinBuyNowInput = By.xpath("(//input)[4]");
@@ -135,9 +131,16 @@ export default class MarketPage implements IMarketPage {
   }
 
   public async search() {
+    this._util.httpHook();
     const xSearchBtn = By.xpath("//button[contains(@class, 'call-to-action')]");
     const searchBtn = await this._driver.findElement(xSearchBtn);
     await searchBtn.click().catch((e) => this._logger.error(e));
+  }
+
+  //This function should be assigned by library users
+  public onSearchHttpIntercept(data: any) {
+    console.log("onSearchHttpIntercept");
+    console.log(data);
   }
 
   public async buyNow(quantity: number = -1, maxBuyNowConfirm: number) {
@@ -171,7 +174,6 @@ export default class MarketPage implements IMarketPage {
         return;
       }
 
-      //Check if item is expired
       const itemClassName = await item.getAttribute("className");
       if (itemClassName.includes("expired")) {
         return;
@@ -186,7 +188,14 @@ export default class MarketPage implements IMarketPage {
     }
   }
 
+  //This function should be implemented by library users
+  public onBuyNowHttpIntercept(data: any) {
+    console.log("onBuyNowHttpIntercept");
+    console.log(data);
+  }
+
   public async listOnMarket(options: IListItemOptions) {
+    //https://utas.external.s2.fut.ea.com/ut/game/fifa21/trade/status?tradeIds=295809519293
     const xWonItems = By.xpath("//li[contains(@class, 'won')]");
     await this._util.updateFindTimeout(1000);
     const wonItems = await this._driver.findElements(xWonItems);
@@ -225,6 +234,12 @@ export default class MarketPage implements IMarketPage {
 
       await this._util.sleep(600);
     }
+  }
+
+  //This function should be implemented by library users
+  public onListOnMarketHttpIntercept(data: any) {
+    console.log("onListOnMarketHttpIntercept");
+    console.log(data);
   }
 
   public async back() {

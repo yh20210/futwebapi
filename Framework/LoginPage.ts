@@ -1,5 +1,6 @@
 import { authenticator } from "otplib";
 import { By, WebDriver } from "selenium-webdriver";
+import { Type } from "selenium-webdriver/lib/logging";
 import { ILoginOptions } from "../Interfaces/ILoginOptions";
 import Logger from "./Logger";
 

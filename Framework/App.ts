@@ -1,14 +1,49 @@
-import { Builder } from "selenium-webdriver";
+import { Builder, Capabilities } from "selenium-webdriver";
 import { Options } from "selenium-webdriver/chrome";
+import { Level, Preferences, Type } from "selenium-webdriver/lib/logging";
 import Logger from "./Logger";
 import LoginPage from "./LoginPage";
 import MarketPage from "./MarketPage";
+import express, { Application, json, Request, Response } from "express";
 
 export class App {
+  private _driveName: string;
   private _loginPage: LoginPage;
   private _marketPage: MarketPage;
+  private _server: Application;
+
+  public constructor(driverName: string) {
+    this._driveName = driverName;
+    this._server = express();
+  }
+
+  private async _interceptHttp(req: Request, res: Response) {
+    if (req.body.url.includes("ut/game/fifa21/transfermarket")) {
+      this._marketPage.onSearchHttpIntercept(JSON.parse(req.body.body));
+    } else if (
+      req.body.url.includes("ut/game/fifa21/trade/") &&
+      req.body.url.includes("bid")
+    ) {
+      this._marketPage.onBuyNowHttpIntercept(JSON.parse(req.body.body));
+    } else if (req.body.url.includes("ut/game/fifa21/trade/")) {
+      this._marketPage.onListOnMarketHttpIntercept(JSON.parse(req.body.body));
+    }
+  }
 
   public async init() {
+    this._server.use(express.json());
+    this._server.use(function (req, res, next) {
+      res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+      res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+      );
+      next();
+    });
+    this._server.post("/", this._interceptHttp.bind(this));
+    this._server.listen(3000, () => {
+      console.log("Http interceptor listen on port 3000");
+    });
     const options = new Options();
     options.addArguments("--disable-setuid-sandbox");
     options.addArguments("--disable-automation");
@@ -22,17 +57,19 @@ export class App {
       "profile.password_manager_enabled": false,
       credentails_enable_serivce: false,
     });
+    const logPrefs = new Preferences();
+    logPrefs.setLevel(Type.PERFORMANCE, Level.ALL);
     const driver = await new Builder()
-      .forBrowser("chrome")
       .setChromeOptions(options)
+      .withCapabilities(Capabilities.chrome)
+      .setLoggingPrefs(logPrefs)
+      .forBrowser(this._driveName)
       .build();
 
     driver.manage().setTimeouts({
       implicit: 20000,
     });
-
     const logger = new Logger({ type: "console" });
-
     this._loginPage = new LoginPage(driver, logger);
     this._marketPage = new MarketPage(driver, logger);
   }

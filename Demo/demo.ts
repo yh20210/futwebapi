@@ -14,7 +14,7 @@ async function sleep(ms: number) {
   var playersFile = await fs.readFile(path.join(__dirname, "./players.txt"), "utf-8");
   var players = playersFile.split("\n");
 
-  const app = new App();
+  const app = new App("chrome");
   await app.init();
 
   await app.loginPage.goto();
@@ -33,12 +33,12 @@ async function sleep(ms: number) {
       const maxBuyNow = parseInt(player.split("||")[1]);
       const sellBuyNow = parseInt(player.split("||")[2]);
 
-      /* Search consumables examples
+      /*Search consumables examples
       await app.marketPage.setSearchConsumableOptions({
         type: "Position Change",
         subtype: "CF >> CAM"
-      });
-      */
+      });*/
+
       await app.marketPage.setSearchPlayerOptions({
         name,
         maxBuyNow,

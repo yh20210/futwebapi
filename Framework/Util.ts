@@ -7,6 +7,30 @@ export default class Util {
     this._driver = driver;
   }
 
+  public httpHook() {
+    this._driver.executeScript(`
+    ((() => {
+        const origOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function() {
+            this.addEventListener('load', function() {
+                fetch("http://localhost:3000", {
+                  method: 'POST',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    body: this.responseText,
+                    url: this.responseURL
+                  })
+                })
+            });
+            origOpen.apply(this, arguments);
+        };
+    }))();
+    `);
+  }
+
   public async selectOption(value: string, element: WebElement) {
     const xTargetOption = By.xpath(`//li[text()='${value}']`);
     await element.click();
