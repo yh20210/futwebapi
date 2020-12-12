@@ -58,9 +58,18 @@ export default class LoginPage implements LoginPage {
     let code;
     if (options.code) code = options.code.toString();
     if (options.token) code = authenticator.generate(token);
-    const appAuthRadioBtn = await this._driver.findElement(xAppAuthRadioBtn);
+
+    //Some accounts only have 1 option to verify login
+    //so no radio buttons are shown
+    try {
+      await this._util.updateFindTimeout(1000);
+      const appAuthRadioBtn = await this._driver.findElement(xAppAuthRadioBtn);
+      await appAuthRadioBtn.click().catch();
+    } catch (e) {
+      await this._util.updateFindTimeout(20000);
+    }
+
     const sendCodeBtn = await this._driver.findElement(xSendCodeBtn);
-    await appAuthRadioBtn.click().catch();
     await sendCodeBtn.click().catch();
     const codeInput = await this._driver.findElement(xCodeInput);
     const submitCodeBtn = await this._driver.findElement(xSubmitCodeBtn);

@@ -25,7 +25,24 @@ export default class MarketPage implements IMarketPage {
       .catch((e) => this._logger.error(e));
   }
 
+  private async checkIfBlocked() {
+    let isBlocked = false;
+    try {
+      this._util.updateFindTimeout(1000);
+      const xBlockedText = By.xpath(
+        "//p[contains(text(), 'Your account has been blocked')]"
+      );
+      await this._driver.findElement(xBlockedText);
+      isBlocked = true;
+    } catch (e) {
+      this._util.updateFindTimeout(2000);
+    }
+    if (isBlocked) throw new Error("Provided account is banned from the market");
+  }
+
   public async gotoSearch() {
+    //Check if account is blocked
+    await this.checkIfBlocked();
     const xGotoSearch = By.xpath("//div[contains(@class, 'ut-tile-transfer-market')]");
     const gotoSearchBtn = await this._driver.findElement(xGotoSearch);
     await this._util
