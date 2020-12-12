@@ -112,4 +112,11 @@ export default class Util {
       "Provided account has no created club."
     );
   }
+
+  public async checkIfOtherDevice() {
+    await this.checkIfError(
+      "//h2[contains(text(), 'Signed Into Another Device')]",
+      "Provided account is logged in other place."
+    );
+  }
 }

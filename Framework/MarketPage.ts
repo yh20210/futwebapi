@@ -25,6 +25,7 @@ export default class MarketPage implements IMarketPage {
         .clickPreventShield(gotoMarketBtn)
         .catch((e) => this._logger.error(e));
     } catch (e) {
+      await this._util.checkIfOtherDevice();
       await this._util.checkIfHaveClub();
     }
   }
