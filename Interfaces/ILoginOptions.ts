@@ -1,5 +1,6 @@
 export interface ILoginOptions {
   email: string;
   password: string;
-  token: string;
+  token?: string;
+  code?: number;
 }
