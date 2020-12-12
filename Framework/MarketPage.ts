@@ -18,36 +18,33 @@ export default class MarketPage implements IMarketPage {
   }
 
   public async goto() {
-    const xGotoMarket = By.xpath("//button[contains(@class, 'icon-transfer')]");
-    const gotoMarketBtn = await this._driver.findElement(xGotoMarket);
-    await this._util
-      .clickPreventShield(gotoMarketBtn)
-      .catch((e) => this._logger.error(e));
-  }
-
-  private async checkIfBlocked() {
-    let isBlocked = false;
     try {
-      this._util.updateFindTimeout(1000);
-      const xBlockedText = By.xpath(
-        "//p[contains(text(), 'Your account has been blocked')]"
-      );
-      await this._driver.findElement(xBlockedText);
-      isBlocked = true;
+      const xGotoMarket = By.xpath("//button[contains(@class, 'icon-transfer')]");
+      const gotoMarketBtn = await this._driver.findElement(xGotoMarket);
+      await this._util
+        .clickPreventShield(gotoMarketBtn)
+        .catch((e) => this._logger.error(e));
     } catch (e) {
-      this._util.updateFindTimeout(2000);
+      await this._util.checkIfHaveClub();
     }
-    if (isBlocked) throw new Error("Provided account is banned from the market");
   }
 
   public async gotoSearch() {
-    //Check if account is blocked
-    await this.checkIfBlocked();
+    await this._util.checkIfBlocked();
     const xGotoSearch = By.xpath("//div[contains(@class, 'ut-tile-transfer-market')]");
     const gotoSearchBtn = await this._driver.findElement(xGotoSearch);
     await this._util
       .clickPreventShield(gotoSearchBtn)
       .catch((e) => this._logger.error(e));
+  }
+
+  public async nextSearchPage() {
+    try {
+      const xNextBtn = By.xpath("//button[contains(@class, 'next')]");
+      const nextBtn = await this._driver.findElement(xNextBtn);
+      await this._util.clickPreventShield(nextBtn);
+      await this._util.sleep(300);
+    } catch (e) {}
   }
 
   public async gotoTransferList() {
@@ -163,13 +160,9 @@ export default class MarketPage implements IMarketPage {
     let resultItems = await this._driver.findElements(xResultItems);
     await this._util.updateFindTimeout(20000);
 
-    if (resultItems.length === 0) {
-      return;
-    }
+    if (resultItems.length === 0) return;
 
-    if (quantity !== -1) {
-      resultItems = resultItems.slice(0, quantity);
-    }
+    if (quantity !== -1) resultItems = resultItems.slice(0, quantity);
 
     for (var item of resultItems) {
       this._util.clickPreventShield(item);
@@ -248,10 +241,7 @@ export default class MarketPage implements IMarketPage {
   }
 
   //This function should be implemented by library users
-  public onListOnMarketHttpIntercept(data: any) {
-    console.log("onListOnMarketHttpIntercept");
-    console.log(data);
-  }
+  public onListOnMarketHttpIntercept(data: any) {}
 
   public async back() {
     const xBackBtn = By.xpath("//button[@class='ut-navigation-button-control']");

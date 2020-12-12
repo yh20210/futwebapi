@@ -9,6 +9,7 @@ export default interface IMarketPage {
   setSearchPlayerOptions(params: ISearchPlayerOptions): Promise<void>;
   setSearchConsumableOptions(params: ISearchConsumableOptions): Promise<void>;
   search(): Promise<void>;
+  nextSearchPage(): Promise<void>;
   buyNow(quantity: number, maxBuyNowConfirm: number): Promise<void>;
   listOnMarket(params: IListItemOptions): Promise<void>;
   back(): Promise<void>;

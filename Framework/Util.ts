@@ -85,4 +85,31 @@ export default class Util {
       }
     }
   }
+
+  public async checkIfError(xpath: string, exMessage: string) {
+    let isError = false;
+    try {
+      this.updateFindTimeout(1000);
+      const xBlockedText = By.xpath(xpath);
+      await this._driver.findElement(xBlockedText);
+      isError = true;
+    } catch (e) {
+      this.updateFindTimeout(2000);
+    }
+    if (isError) throw new Error(exMessage);
+  }
+
+  public async checkIfBlocked() {
+    await this.checkIfError(
+      "//p[contains(text(), 'Your account has been blocked')]",
+      "Provided account is banned from the market"
+    );
+  }
+
+  public async checkIfHaveClub() {
+    await this.checkIfError(
+      "//p[contains(text(), 'It looks like your EA Account')]",
+      "Provided account has no created club."
+    );
+  }
 }

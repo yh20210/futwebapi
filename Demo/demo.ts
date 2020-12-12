@@ -29,28 +29,10 @@ async function sleep(ms: number) {
 
   while (true) {
     for (var player of players) {
-      const name = player.split("||")[0];
-      const maxBuyNow = parseInt(player.split("||")[1]);
-      const sellBuyNow = parseInt(player.split("||")[2]);
-
-      /*Search consumables examples
-      await app.marketPage.setSearchConsumableOptions({
-        type: "Position Change",
-        subtype: "CF >> CAM"
-      });*/
-
-      await app.marketPage.setSearchPlayerOptions({
-        name,
-        maxBuyNow,
-      });
       await app.marketPage.search();
-      await app.marketPage.buyNow(1, maxBuyNow);
-      await app.marketPage.listOnMarket({
-        startBid: 150,
-        buyNow: sellBuyNow,
-        duration: "1 Hour",
-      });
-      await app.marketPage.back();
+      await app.marketPage.nextSearchPage();
+      await app.marketPage.nextSearchPage();
+      //await app.marketPage.back();
       await sleep(10000);
     }
   }
