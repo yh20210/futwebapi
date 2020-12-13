@@ -1,4 +1,4 @@
-import { Builder, Capabilities } from "selenium-webdriver";
+import { Builder, By, Capabilities } from "selenium-webdriver";
 import { Options } from "selenium-webdriver/chrome";
 import { Level, Preferences, Type } from "selenium-webdriver/lib/logging";
 import Logger from "./Logger";

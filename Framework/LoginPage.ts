@@ -1,17 +1,17 @@
-import { O_TRUNC } from "constants";
 import { authenticator } from "otplib";
 import { By, WebDriver } from "selenium-webdriver";
 import { ILoginOptions } from "../Interfaces/ILoginOptions";
+import ILoginPage from "../Interfaces/ILoginPage";
 import Logger from "./Logger";
+import { Page } from "./Page";
 import Util from "./Util";
 
-export default class LoginPage implements LoginPage {
-  private _driver: WebDriver;
+export default class LoginPage extends Page implements ILoginPage {
   private _logger: Logger;
   private _util: Util;
 
   public constructor(driver: WebDriver, logger: Logger) {
-    this._driver = driver;
+    super(driver);
     this._logger = logger;
     this._util = new Util(driver);
   }

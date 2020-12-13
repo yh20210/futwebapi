@@ -5,14 +5,14 @@ import { ISearchPlayerOptions } from "../Interfaces/ISearchPlayerOptions";
 import { ISearchConsumableOptions } from "../Interfaces/ISearchConsumableOptions";
 import Logger from "./Logger";
 import Util from "./Util";
+import { Page } from "./Page";
 
-export default class MarketPage implements IMarketPage {
-  private _driver: WebDriver;
+export default class MarketPage extends Page implements IMarketPage {
   private _logger: Logger;
   private _util: Util;
 
   public constructor(driver: WebDriver, logger: Logger) {
-    this._driver = driver;
+    super(driver);
     this._logger = logger;
     this._util = new Util(driver);
   }

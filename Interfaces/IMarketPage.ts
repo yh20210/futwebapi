@@ -12,5 +12,6 @@ export default interface IMarketPage {
   nextSearchPage(): Promise<void>;
   buyNow(quantity: number, maxBuyNowConfirm: number): Promise<void>;
   listOnMarket(params: IListItemOptions): Promise<void>;
+  getCoins(): Promise<string>;
   back(): Promise<void>;
 }
