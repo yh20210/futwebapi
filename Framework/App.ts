@@ -4,17 +4,20 @@ import { Level, Preferences, Type } from "selenium-webdriver/lib/logging";
 import Logger from "./Logger";
 import LoginPage from "./LoginPage";
 import MarketPage from "./MarketPage";
-import express, { Application, json, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
+import { IAppOptions } from "../Interfaces/IAppOptions";
 
 export class App {
   private _driveName: string;
   private _loginPage: LoginPage;
   private _marketPage: MarketPage;
   private _server: Application;
+  private interceptPort: number;
 
-  public constructor(driverName: string) {
-    this._driveName = driverName;
+  public constructor(options: IAppOptions) {
+    this._driveName = options.driverName;
     this._server = express();
+    this.interceptPort = options.interceptPort;
   }
 
   private async _interceptHttp(req: Request, res: Response) {
@@ -42,8 +45,8 @@ export class App {
       next();
     });
     this._server.post("/", this._interceptHttp.bind(this));
-    this._server.listen(3000, () => {
-      console.log("Http interceptor listen on port 3000");
+    this._server.listen(this.interceptPort, () => {
+      console.log(`Http interceptor listen on port ${this.interceptPort}`);
     });
     const options = new Options();
     options.addArguments("--disable-setuid-sandbox");

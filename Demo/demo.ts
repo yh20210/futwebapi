@@ -14,7 +14,10 @@ async function sleep(ms: number) {
   var playersFile = await fs.readFile(path.join(__dirname, "./players.txt"), "utf-8");
   var players = playersFile.split("\n");
 
-  const app = new App("chrome");
+  const app = new App({
+    driverName: "chrome",
+    interceptPort: 8080,
+  });
   await app.init();
 
   await app.loginPage.goto();
