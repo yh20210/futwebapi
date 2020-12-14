@@ -193,7 +193,7 @@ export default class MarketPage extends Page implements IMarketPage {
         await this._util.sleep(600);
       }
     }
-
+    await this._driver.executeScript("this.services.Item.marketRepository.reset()");
     return resultItems.length;
   }
 
