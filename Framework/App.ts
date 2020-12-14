@@ -6,6 +6,7 @@ import LoginPage from "./LoginPage";
 import MarketPage from "./MarketPage";
 import express, { Application, Request, Response } from "express";
 import { IAppOptions } from "../Interfaces/IAppOptions";
+import Util from "./Util";
 
 export class App {
   private _driveName: string;
@@ -74,8 +75,9 @@ export class App {
       implicit: 20000,
     });
     const logger = new Logger({ type: "console" });
-    this._loginPage = new LoginPage(driver, logger);
-    this._marketPage = new MarketPage(driver, logger);
+    const util = new Util(driver, this.interceptPort);
+    this._loginPage = new LoginPage(driver, logger, util);
+    this._marketPage = new MarketPage(driver, logger, util);
   }
 
   public get loginPage() {

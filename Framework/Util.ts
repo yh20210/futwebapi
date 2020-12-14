@@ -2,9 +2,10 @@ import { By, Key, WebDriver, WebElement } from "selenium-webdriver";
 
 export default class Util {
   private _driver: WebDriver;
-
-  public constructor(driver: WebDriver) {
+  private _interceptPort: number;
+  public constructor(driver: WebDriver, interceptPort: number) {
     this._driver = driver;
+    this._interceptPort = interceptPort;
   }
 
   public httpHook() {
@@ -13,7 +14,7 @@ export default class Util {
           const origOpen = XMLHttpRequest.prototype.open;
           XMLHttpRequest.prototype.open = function() {
               this.addEventListener('load', function() {
-                  fetch("http://localhost:3000", {
+                  fetch("http://localhost:${this._interceptPort}", {
                     method: 'POST',
                     headers: {
                       'Accept': 'application/json',

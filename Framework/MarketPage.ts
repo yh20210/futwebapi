@@ -11,10 +11,10 @@ export default class MarketPage extends Page implements IMarketPage {
   private _logger: Logger;
   private _util: Util;
 
-  public constructor(driver: WebDriver, logger: Logger) {
+  public constructor(driver: WebDriver, logger: Logger, util: Util) {
     super(driver);
     this._logger = logger;
-    this._util = new Util(driver);
+    this._util = util;
   }
 
   public async goto() {
