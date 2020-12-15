@@ -162,7 +162,7 @@ export default class MarketPage extends Page implements IMarketPage {
     let resultItems = await this._driver.findElements(xResultItems);
     await this._util.updateFindTimeout(20000);
 
-    if (resultItems.length === 0) return;
+    if (resultItems.length === 0) return 0;
     if (quantity !== -1) resultItems = resultItems.slice(0, quantity);
 
     for (var item of resultItems) {
@@ -193,6 +193,7 @@ export default class MarketPage extends Page implements IMarketPage {
         await this._util.clickPreventShield(okBuyNowBtn);
         await this._util.sleep(600);
       }
+      return resultItems.length;
     }
   }
 
