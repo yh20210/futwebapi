@@ -10,7 +10,7 @@ export default interface IMarketPage {
   setSearchConsumableOptions(params: ISearchConsumableOptions): Promise<void>;
   search(): Promise<void>;
   nextSearchPage(): Promise<void>;
-  buyNow(quantity: number, maxBuyNowConfirm: number): Promise<number>;
+  buyNow(quantity: number, maxBuyNowConfirm: number): Promise<void>;
   listOnMarket(params: IListItemOptions): Promise<void>;
   getCoins(): Promise<string>;
   back(): Promise<void>;

@@ -46,15 +46,15 @@ async function sleep(ms: number) {
         name,
         maxBuyNow,
       });
-      await app.marketPage.search();
+
       await app.marketPage.buyNow(1, maxBuyNow);
       await app.marketPage.listOnMarket({
         startBid: 150,
         buyNow: sellBuyNow,
         duration: "1 Hour",
       });
-      await app.marketPage.back();
-      await sleep(5000);
     }
+    await app.marketPage.back();
+    await sleep(5000);
   }
 })();

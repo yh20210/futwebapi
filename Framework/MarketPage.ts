@@ -194,7 +194,6 @@ export default class MarketPage extends Page implements IMarketPage {
         await this._util.sleep(600);
       }
     }
-    return resultItems.length;
   }
 
   //This function should be implemented by library users
