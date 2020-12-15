@@ -74,7 +74,7 @@ export default class LoginPage extends Page implements ILoginPage {
     const codeInput = await this._driver.findElement(xCodeInput);
     const submitCodeBtn = await this._driver.findElement(xSubmitCodeBtn);
     await codeInput.sendKeys(code);
-    await this._util.sleep(300);
+    await this._util.sleep(500);
     await submitCodeBtn.click().catch((e) => this._logger.error(e));
 
     //Check for wrong code
