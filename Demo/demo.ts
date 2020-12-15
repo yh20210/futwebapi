@@ -54,7 +54,7 @@ async function sleep(ms: number) {
         duration: "1 Hour",
       });
       await app.marketPage.back();
-      await sleep(10000);
+      await sleep(5000);
     }
   }
 })();

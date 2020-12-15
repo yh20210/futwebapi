@@ -147,6 +147,7 @@ export default class MarketPage extends Page implements IMarketPage {
 
   public async search() {
     this._util.httpHook();
+    await this._driver.executeScript("this.services.User.requestMassInfo()");
     const xSearchBtn = By.xpath("//button[contains(@class, 'call-to-action')]");
     const searchBtn = await this._driver.findElement(xSearchBtn);
     await searchBtn.click().catch((e) => this._logger.error(e));
@@ -193,7 +194,6 @@ export default class MarketPage extends Page implements IMarketPage {
         await this._util.sleep(600);
       }
     }
-    await this._driver.executeScript("this.services.Item.marketRepository.reset()");
     return resultItems.length;
   }
 
