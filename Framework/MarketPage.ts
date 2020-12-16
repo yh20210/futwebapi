@@ -19,6 +19,9 @@ export default class MarketPage extends Page implements IMarketPage {
 
   public async goto() {
     try {
+      await this._driver.executeScript(
+        "window.services.Item.marketRepository.isCacheExpired = () => true;"
+      );
       const xGotoMarket = By.xpath("//button[contains(@class, 'icon-transfer')]");
       const gotoMarketBtn = await this._driver.findElement(xGotoMarket);
       await this._util
