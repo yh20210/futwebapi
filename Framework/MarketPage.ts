@@ -22,10 +22,7 @@ export default class MarketPage extends Page implements IMarketPage {
       await this._driver.executeScript(
         "window.services.Item.marketRepository.isCacheExpired = () => true;"
       );
-      await this._driver.executeScript(
-        `window.EASFCApp.prototype.onPause = (): any => undefined;
-        window.EASFCApp.prototype.onResume = (): any => undefined;`
-      );
+      await this._util.updateFindTimeout(20000);
       const xGotoMarket = By.xpath("//button[contains(@class, 'icon-transfer')]");
       const gotoMarketBtn = await this._driver.findElement(xGotoMarket);
       await this._util
@@ -38,6 +35,7 @@ export default class MarketPage extends Page implements IMarketPage {
   }
 
   public async gotoSearch() {
+    await this._util.updateFindTimeout(20000);
     await this._util.checkIfBlocked();
     const xGotoSearch = By.xpath("//div[contains(@class, 'ut-tile-transfer-market')]");
     const gotoSearchBtn = await this._driver.findElement(xGotoSearch);

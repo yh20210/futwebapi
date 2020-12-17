@@ -22,15 +22,21 @@ export class App {
   }
 
   private async _interceptHttp(req: Request, res: Response) {
+    let body = {};
+    try {
+      body = JSON.parse(req.body.body);
+    } catch (e) {
+      body = {};
+    }
     if (req.body.url.includes("ut/game/fifa21/transfermarket")) {
-      this._marketPage.onSearchHttpIntercept(JSON.parse(req.body.body));
+      this._marketPage.onSearchHttpIntercept(body);
     } else if (
       req.body.url.includes("ut/game/fifa21/trade/") &&
       req.body.url.includes("bid")
     ) {
-      this._marketPage.onBuyNowHttpIntercept(JSON.parse(req.body.body));
+      this._marketPage.onBuyNowHttpIntercept(body);
     } else if (req.body.url.includes("ut/game/fifa21/trade/status?tradeIds")) {
-      this._marketPage.onListOnMarketHttpIntercept(JSON.parse(req.body.body));
+      this._marketPage.onListOnMarketHttpIntercept(body);
     }
     res.end();
   }
